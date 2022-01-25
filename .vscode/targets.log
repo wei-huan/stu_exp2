@@ -8,7 +8,7 @@ make: *** No rule to make target 'all'.  Stop.
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Mon Jan 24 22:50:45 2022
+# Make data base, printed on Tue Jan 25 14:50:11 2022
 
 # Variables
 
@@ -47,13 +47,11 @@ CURDIR := /home/weihuan/WorkSpace/Compile/exp/stu_exp2
 # makefile
 SHELL = /bin/sh
 # environment
-VTE_VERSION = 6003
-# environment
 VSCODE_NLS_CONFIG = {"locale":"zh-cn","availableLanguages":{},"_languagePackSupport":true}
 # environment
 _ = /usr/bin/make
 # environment
-JOURNAL_STREAM = 8:61641
+JOURNAL_STREAM = 8:62558
 # environment
 XDG_CONFIG_DIRS = /etc/xdg/xdg-ubuntu:/etc/xdg
 # environment
@@ -62,8 +60,6 @@ LESSOPEN = | /usr/bin/lesspipe %s
 MAKEFILE_LIST :=  Makefile
 # automatic
 @F = $(notdir $@)
-# environment
-LC_MEASUREMENT = zh_CN.UTF-8
 # environment
 IM_CONFIG_PHASE = 1
 # environment
@@ -75,19 +71,21 @@ MANDATORY_PATH = /usr/share/gconf/ubuntu.mandatory.path
 # environment
 XDG_DATA_DIRS = /usr/share/ubuntu:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop
 # environment
-DBUS_SESSION_BUS_ADDRESS = unix:path=/run/user/1000/bus,guid=565b30552147d4086df43ff461ee4736
+DBUS_SESSION_BUS_ADDRESS = unix:path=/run/user/1000/bus
 # environment
 VSCODE_VERBOSE_LOGGING = true
 # environment
-MANAGERPID = 2595
+MANAGERPID = 2807
 # environment
 CLUTTER_IM_MODULE = fcitx
 # environment
-VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-d00ea5d6-a35f-4660-85dd-4419397e0aff.sock
+VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-c45b1890-cb6b-44f6-8736-6b7ad23d552d.sock
 # environment
 LC_NAME = zh_CN.UTF-8
 # environment
-VSCODE_CWD = /home/weihuan/WorkSpace/Compile/exp/stu_exp2
+VSCODE_CWD = /home/weihuan
+# environment
+GSETTINGS_SCHEMA_DIR = /home/weihuan/data
 # default
 MAKE_HOST := x86_64-pc-linux-gnu
 # environment
@@ -95,7 +93,7 @@ PATH = /home/weihuan/Tools/qemu-4.2.0:/home/weihuan/anaconda3/bin:/home/weihuan/
 # environment
 GPG_AGENT_INFO = /run/user/1000/gnupg/S.gpg-agent:0:1
 # environment
-SESSION_MANAGER = local/weihuan-Lenovo-Legion-R9000P2021H:@/tmp/.ICE-unix/3274,unix/weihuan-Lenovo-Legion-R9000P2021H:/tmp/.ICE-unix/3274
+SESSION_MANAGER = local/weihuan-Lenovo-Legion-R9000P2021H:@/tmp/.ICE-unix/3415,unix/weihuan-Lenovo-Legion-R9000P2021H:/tmp/.ICE-unix/3415
 # environment
 XDG_RUNTIME_DIR = /run/user/1000
 # makefile (from 'Makefile', line 10)
@@ -107,17 +105,19 @@ VSCODE_LOG_STACK = false
 # environment
 ELECTRON_RUN_AS_NODE = 1
 # environment
-INVOCATION_ID = b88ebacb7fb9483b80cfd91de359e34c
+INVOCATION_ID = 497e18248bab4cac8ff5648ebd91f84e
 # makefile (from 'Makefile', line 15)
 LIB := lib
 # default
 .FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell archives jobserver output-sync check-symlink load
 # environment
-LS_COLORS = rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:
+LS_COLORS = 
 # environment
 XDG_SESSION_DESKTOP = ubuntu
 # environment
 SSH_AUTH_SOCK = /run/user/1000/keyring/ssh
+# environment
+GIO_LAUNCHED_DESKTOP_FILE_PID = 5272
 # automatic
 %F = $(notdir $%)
 # environment
@@ -133,7 +133,7 @@ PWD = /home/weihuan/WorkSpace/Compile/exp/stu_exp2
 # default
 .LOADED := 
 # environment
-SSH_AGENT_PID = 3228
+SSH_AGENT_PID = 3373
 # environment
 ORIGINAL_XDG_CURRENT_DESKTOP = ubuntu:GNOME
 # environment
@@ -144,8 +144,6 @@ VSCODE_AMD_ENTRYPOINT = vs/workbench/services/extensions/node/extensionHostProce
 HOME = /home/weihuan
 # environment
 LESSCLOSE = /usr/bin/lesspipe %s %s
-# environment
-VSCODE_CLI = 1
 # environment
 VSCODE_CODE_CACHE_PATH = /home/weihuan/.config/Code/CachedData/899d46d82c4c95423fb7e10e68eba52050e30ba3
 # makefile (from 'Makefile', line 16)
@@ -158,8 +156,6 @@ APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = true
 CONDA_PROMPT_MODIFIER = (base) 
 # automatic
 +F = $(notdir $+)
-# environment
-ELECTRON_NO_ATTACH_CONSOLE = 1
 # environment
 VSCODE_HANDLES_UNCAUGHT_ERRORS = true
 # environment
@@ -174,8 +170,6 @@ TAR0 := man_lex
 LC_TIME = zh_CN.UTF-8
 # environment
 CONDA_DEFAULT_ENV = base
-# environment
-COLORTERM = truecolor
 # default
 MAKE = $(MAKE_COMMAND)
 # default
@@ -183,7 +177,7 @@ MAKECMDGOALS := all
 # environment
 QT_IM_MODULE = fcitx
 # environment
-SHLVL = 2
+SHLVL = 0
 # makefile (from 'Makefile', line 9)
 CC := gcc
 # environment
@@ -247,25 +241,17 @@ LC_NUMERIC = zh_CN.UTF-8
 # automatic
 <F = $(notdir $<)
 # environment
-PHANTOMJS_PLATFORM = linux
-# environment
-PHANTOMJS_ARCH = x64
+LC_MEASUREMENT = zh_CN.UTF-8
 # environment
 LC_ALL = C
-# environment
-DBUS_STARTER_BUS_TYPE = session
 # environment
 VSCODE_CRASH_REPORTER_START_OPTIONS = {"companyName":"Microsoft","productName":"VSCode","submitURL":"appcenter://code?aid=fba07a4d-84bd-4fc8-a125-9640fc8ce171&uid=5301368c-edaa-4fa5-bbd4-6c491c4510e5&iid=5301368c-edaa-4fa5-bbd4-6c491c4510e5&sid=5301368c-edaa-4fa5-bbd4-6c491c4510e5","uploadToServer":true}
 # environment
 CONDA_PYTHON_EXE = /home/weihuan/anaconda3/bin/python
 # environment
 QT4_IM_MODULE = fcitx
-# environment
-GNOME_TERMINAL_SCREEN = /org/gnome/Terminal/screen/bedc842d_d7fc_46fb_8a88_6d276e99406d
 # automatic
 ^F = $(notdir $^)
-# environment
-GNOME_TERMINAL_SERVICE = :1.93
 # default
 SUFFIXES := 
 # environment
@@ -283,20 +269,18 @@ LC_IDENTIFICATION = zh_CN.UTF-8
 # environment
 LC_ADDRESS = zh_CN.UTF-8
 # environment
+GIO_LAUNCHED_DESKTOP_FILE = /usr/share/applications/code.desktop
+# environment
 CONDA_PREFIX = /home/weihuan/anaconda3
 # environment
-TERM = xterm-256color
-# environment
-VSCODE_PID = 5554
-# environment
-DBUS_STARTER_ADDRESS = unix:path=/run/user/1000/bus,guid=565b30552147d4086df43ff461ee4736
+VSCODE_PID = 5272
 # environment
 _CE_CONDA = 
 # environment
 LANG = C
 # variable set hash-table stats:
  
-# Load=141/1024=14%, Rehash=0, Collisions=30/180=17%
+# Load=133/1024=13%, Rehash=0, Collisions=26/172=15%
 
 # Pattern-specific Variable Values
 
@@ -304,9 +288,9 @@ LANG = C
 
 # Directories
 
-# . (device 66310, inode 22816469): 10 files, no impossibilities.
+# . (device 66310, inode 22816469): 11 files, no impossibilities.
 
-# 10 files, no impossibilities in 1 directories.
+# 11 files, no impossibilities in 1 directories.
 
 # Implicit Rules
 
@@ -391,12 +375,12 @@ man_lex:
 
 # No general ('VPATH' variable) search path.
 
-# strcache buffers: 1 (0) / strings = 22 / storage = 164 B / avg = 7 B
-# current buf: size = 8162 B / used = 164 B / count = 22 / avg = 7 B
+# strcache buffers: 1 (0) / strings = 23 / storage = 169 B / avg = 7 B
+# current buf: size = 8162 B / used = 169 B / count = 23 / avg = 7 B
 
-# strcache performance: lookups = 38 / hit rate = 42%
+# strcache performance: lookups = 39 / hit rate = 41%
 # hash-table stats:
-# Load=22/8192=0%, Rehash=0, Collisions=1/38=3%
-# Finished Make data base on Mon Jan 24 22:50:45 2022
+# Load=23/8192=0%, Rehash=0, Collisions=1/39=3%
+# Finished Make data base on Tue Jan 25 14:50:11 2022
 
  
