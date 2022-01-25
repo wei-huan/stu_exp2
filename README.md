@@ -1,1 +1,1 @@
-# sysY_compiler
+# sysY-compiler
