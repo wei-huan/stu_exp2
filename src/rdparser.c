@@ -1,4 +1,4 @@
-#include "rdparser.h"
+#include "../inc/rdparser.h"
 
 static int tok = 0;
 void advance(){
@@ -16,10 +16,6 @@ int save_recall_pos(){
 	if(recall_pos == -2)
 		recall_pos = 0;
 
-#ifdef DEBUG_MODE
-	printf("recall_pos: %d\n", recall_pos);
-#endif /*DEBUG_MODE*/
-
 	return recall_pos;
 }
 
@@ -29,10 +25,6 @@ void recall(int last_pos){
 
 	fseek(ana_file, (-1 * recall_len), SEEK_CUR);
 	first_get = 1;
-
-#ifdef DEBUG_MODE
-	printf("回溯新位置: %ld\n", ftell(ana_file));
-#endif /*DEBUG_MODE*/
 
 	getChar();
 }

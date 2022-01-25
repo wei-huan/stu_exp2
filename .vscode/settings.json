@@ -9,5 +9,6 @@
 		"cstdio": "c",
 		"cmath": "c",
 		"rdparser.h": "c"
-	}
+	},
+	"C_Cpp.errorSquiggles": "Disabled"
 }

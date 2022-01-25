@@ -7,6 +7,7 @@
 #include <stdbool.h>
 #include <dirent.h>
 #include "man_lex.h"
+#include <malloc.h>
 
 #define DEBUG_MODE	1
 typedef struct _ast ast;
