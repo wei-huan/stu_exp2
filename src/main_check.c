@@ -3,7 +3,7 @@
 #include <unistd.h>
 #include "rdcheck.h"
 
-#if ALL
+#ifndef ALL
 // 分析单文件
 int main(int argc, char**argv){
 	// fflush(stdout);
@@ -45,7 +45,7 @@ int main(int argc, char* argv[]){
     char *sourcefile, *copyfile;
     char sourcepath[80], objectpath[80], temppath[80];  // temppath 是strcat的参数, strcat 会改变传入的第一个参数， 如果直接传 sourcepath 第二次的参数就是错的
     char flow;
-
+    int cor_cnt = 0, fail_cnt = 0;
 //     fflush(stdout);
 //     setvbuf(stdout, NULL, _IONBF, 0);
 //     freopen("./my.log", "w", stdout); //打印到my.log文件
@@ -84,10 +84,12 @@ int main(int argc, char* argv[]){
 	    bool r = Recursive_Parse();
 
 	    if(r == false){
-		printf("\033[40;31m×\033[0m\n");
+            fail_cnt++;
+		    printf("\033[40;31m×\033[0m\n");
 	    }
 	    else{
-		printf("\033[40;32m√\033[0m\n");
+            cor_cnt++;
+		    printf("\033[40;32m√\033[0m\n");
 	    }
 
             /* 关闭文件 */
@@ -98,6 +100,10 @@ int main(int argc, char* argv[]){
     /* 关闭文件夹 */
     closedir(dir);
 
+    if(!fail_cnt)
+        printf("\033[40;32m全部正确\033[0m\n");
+    else
+        printf("\033[40;31m有错误\033[0m\n");
     return 0;
 }
 

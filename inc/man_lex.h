@@ -34,7 +34,7 @@ enum Token_T{
 	tok_LESS,		 // <
 	tok_LESSEQ,		 // <=
 	tok_GREAT,		 // >
-	tok_GREATEQ,	 	 // >=
+	tok_GREATEQ,	 // >=
 	tok_NOTEQ,		 // !=
 	tok_EQ,		 	 // ==
 	tok_NOT,		 // !
@@ -43,12 +43,12 @@ enum Token_T{
 	tok_ASSIGN,		 // =
 	tok_LPAR,		 // (
 	tok_RPAR,		 // )
-	tok_LBRACKET,	 	 // {
-	tok_RBRACKET,	 	 // }
-	tok_LSQUARE,	 	 // [
-	tok_RSQUARE,	 	 // ]
+	tok_LBRACKET,	 // {
+	tok_RBRACKET,	 // }
+	tok_LSQUARE,	 // [
+	tok_RSQUARE,	 // ]
 	tok_COMMA,		 // ,
-	tok_SEMICOLON,	 	 // ;
+	tok_SEMICOLON,	 // ;
 	tok_EOF
 };
 

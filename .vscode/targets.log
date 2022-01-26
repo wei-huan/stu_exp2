@@ -8,7 +8,7 @@ make: *** No rule to make target 'all'.  Stop.
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Tue Jan 25 14:50:11 2022
+# Make data base, printed on Tue Jan 25 22:19:39 2022
 
 # Variables
 
@@ -26,7 +26,7 @@ DESKTOP_SESSION = ubuntu
 .SHELLFLAGS := -c
 # environment
 XDG_SESSION_CLASS = user
-# makefile (from 'Makefile', line 14)
+# makefile (from 'Makefile', line 18)
 SRC := src
 # environment
 XDG_SESSION_TYPE = x11
@@ -46,6 +46,8 @@ XMODIFIERS = @im=fcitx
 CURDIR := /home/weihuan/WorkSpace/Compile/exp/stu_exp2
 # makefile
 SHELL = /bin/sh
+# makefile (from 'Makefile', line 9)
+ana_FileDir = $(WorkDir)/test
 # environment
 VSCODE_NLS_CONFIG = {"locale":"zh-cn","availableLanguages":{},"_languagePackSupport":true}
 # environment
@@ -80,10 +82,14 @@ MANAGERPID = 2807
 CLUTTER_IM_MODULE = fcitx
 # environment
 VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-c45b1890-cb6b-44f6-8736-6b7ad23d552d.sock
+# makefile (from 'Makefile', line 10)
+ana_File = 00_arr_defn2.c
 # environment
 LC_NAME = zh_CN.UTF-8
 # environment
 VSCODE_CWD = /home/weihuan
+# makefile (from 'Makefile', line 21)
+TestDir := test/test_cases
 # environment
 GSETTINGS_SCHEMA_DIR = /home/weihuan/data
 # default
@@ -96,7 +102,7 @@ GPG_AGENT_INFO = /run/user/1000/gnupg/S.gpg-agent:0:1
 SESSION_MANAGER = local/weihuan-Lenovo-Legion-R9000P2021H:@/tmp/.ICE-unix/3415,unix/weihuan-Lenovo-Legion-R9000P2021H:/tmp/.ICE-unix/3415
 # environment
 XDG_RUNTIME_DIR = /run/user/1000
-# makefile (from 'Makefile', line 10)
+# makefile (from 'Makefile', line 14)
 AR := ar
 # environment
 XDG_MENU_PREFIX = gnome-
@@ -106,7 +112,7 @@ VSCODE_LOG_STACK = false
 ELECTRON_RUN_AS_NODE = 1
 # environment
 INVOCATION_ID = 497e18248bab4cac8ff5648ebd91f84e
-# makefile (from 'Makefile', line 15)
+# makefile (from 'Makefile', line 19)
 LIB := lib
 # default
 .FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell archives jobserver output-sync check-symlink load
@@ -146,7 +152,7 @@ HOME = /home/weihuan
 LESSCLOSE = /usr/bin/lesspipe %s %s
 # environment
 VSCODE_CODE_CACHE_PATH = /home/weihuan/.config/Code/CachedData/899d46d82c4c95423fb7e10e68eba52050e30ba3
-# makefile (from 'Makefile', line 16)
+# makefile (from 'Makefile', line 20)
 TAR := target
 # environment
 LOGNAME = weihuan
@@ -162,8 +168,6 @@ VSCODE_HANDLES_UNCAUGHT_ERRORS = true
 GNOME_DESKTOP_SESSION_ID = this-is-deprecated
 # automatic
 ^D = $(patsubst %/,%,$(dir $^))
-# makefile (from 'Makefile', line 17)
-TEST := test/test_cases
 # makefile (from 'Makefile', line 1)
 TAR0 := man_lex
 # environment
@@ -178,7 +182,7 @@ MAKECMDGOALS := all
 QT_IM_MODULE = fcitx
 # environment
 SHLVL = 0
-# makefile (from 'Makefile', line 9)
+# makefile (from 'Makefile', line 13)
 CC := gcc
 # environment
 GNOME_SHELL_SESSION_MODE = ubuntu
@@ -194,6 +198,8 @@ LC_MONETARY = zh_CN.UTF-8
 XDG_CURRENT_DESKTOP = Unity
 # makefile (from 'Makefile', line 2)
 TAR1 := check
+# makefile (from 'Makefile', line 7)
+WorkDir = $(shell pwd)
 # makefile (from 'Makefile', line 6)
 ALL = 0
 # automatic
@@ -204,7 +210,7 @@ LC_TELEPHONE = zh_CN.UTF-8
 CONDA_SHLVL = 1
 # default
 MAKE_COMMAND := make
-# makefile (from 'Makefile', line 13)
+# makefile (from 'Makefile', line 17)
 INC := inc
 # default
 .VARIABLES := 
@@ -280,7 +286,7 @@ _CE_CONDA =
 LANG = C
 # variable set hash-table stats:
  
-# Load=133/1024=13%, Rehash=0, Collisions=26/172=15%
+# Load=136/1024=13%, Rehash=0, Collisions=35/178=20%
 
 # Pattern-specific Variable Values
 
@@ -288,9 +294,9 @@ LANG = C
 
 # Directories
 
-# . (device 66310, inode 22816469): 11 files, no impossibilities.
+# . (device 66310, inode 22816469): 14 files, no impossibilities.
 
-# 11 files, no impossibilities in 1 directories.
+# 14 files, no impossibilities in 1 directories.
 
 # Implicit Rules
 
@@ -309,20 +315,20 @@ run_check: check
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  recipe to execute (from 'Makefile', line 36):
-	./$(TAR)/$(TAR1)
+#  recipe to execute (from 'Makefile', line 49):
+	./$(TAR)/$(TAR1) $(ana_FileDir)/$(ana_file)
 
 run_parser: parser
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  recipe to execute (from 'Makefile', line 43):
-	./$(TAR)/$(TAR2)
+#  recipe to execute (from 'Makefile', line 56):
+	./$(TAR)/$(TAR2) $(ana_FileDir)/$(ana_file)
 
 # Not a target:
 Makefile:
 #  Implicit rule search has been done.
-#  Last modified 2022-01-24 21:37:39.195824148
+#  Last modified 2022-01-25 22:19:32.07974617
 #  File has been updated.
 #  Successfully updated.
 
@@ -330,15 +336,15 @@ libman_lex: man_lex
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  recipe to execute (from 'Makefile', line 23):
+#  recipe to execute (from 'Makefile', line 27):
 	$(AR) cqs $(LIB)/lib$(TAR0).a $(TAR)/$(TAR0).o
 
 parser: libman_lex
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  recipe to execute (from 'Makefile', line 29):
-	$(CC) $(SRC)/main_$(TAR2).c $(SRC)/rdparser.c -L $(LIB)/ -l$(TAR0)  -I $(INC)/ -o $(TAR)/$(TAR2) -I $(INC)
+#  recipe to execute (from 'Makefile', line 42):
+	$(CC) $(SRC)/main_$(TAR1).c $(SRC)/rdcheck.c -L $(LIB)/ -l$(TAR0) -I $(INC)/ -o $(TAR)/$(TAR1)
 
 # Not a target:
 .DEFAULT:
@@ -350,21 +356,21 @@ clean:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  recipe to execute (from 'Makefile', line 47):
+#  recipe to execute (from 'Makefile', line 60):
 	rm -rf $(TAR)/*.o
 
 check: libman_lex
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  recipe to execute (from 'Makefile', line 26):
+#  recipe to execute (from 'Makefile', line 35):
 	$(CC) $(SRC)/main_$(TAR1).c $(SRC)/rdcheck.c -L $(LIB)/ -l$(TAR0) -I $(INC)/ -o $(TAR)/$(TAR1)
 
 man_lex:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  recipe to execute (from 'Makefile', line 20):
+#  recipe to execute (from 'Makefile', line 24):
 	$(CC) -c $(SRC)/$(TAR0).c -o $(TAR)/$(TAR0).o -I $(INC)
 
 # files hash-table stats:
@@ -375,12 +381,12 @@ man_lex:
 
 # No general ('VPATH' variable) search path.
 
-# strcache buffers: 1 (0) / strings = 23 / storage = 169 B / avg = 7 B
-# current buf: size = 8162 B / used = 169 B / count = 23 / avg = 7 B
+# strcache buffers: 1 (0) / strings = 26 / storage = 198 B / avg = 7 B
+# current buf: size = 8162 B / used = 198 B / count = 26 / avg = 7 B
 
-# strcache performance: lookups = 39 / hit rate = 41%
+# strcache performance: lookups = 42 / hit rate = 38%
 # hash-table stats:
-# Load=23/8192=0%, Rehash=0, Collisions=1/39=3%
-# Finished Make data base on Tue Jan 25 14:50:11 2022
+# Load=26/8192=0%, Rehash=0, Collisions=1/42=2%
+# Finished Make data base on Tue Jan 25 22:19:39 2022
 
  

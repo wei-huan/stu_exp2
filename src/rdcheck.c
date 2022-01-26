@@ -394,7 +394,6 @@ bool Block(){
 
 bool BlockItem(){
 	int recall_pos = save_recall_pos();
-
 	if (!Stmt()){
 		recall(recall_pos);
 		return Decl();
@@ -487,7 +486,6 @@ bool Stmt(){
 
 		if (LVal()){
 			advance();
-
 			if (tok == tok_ASSIGN){
 				if (Exp()){
 					advance();
@@ -509,7 +507,6 @@ bool Stmt(){
 		}
 		else{
 			recall(recall_pos);
-
 			if (Exp()){
 				advance();
 				return tok == tok_SEMICOLON;
@@ -573,7 +570,7 @@ bool PrimaryExp(){
 	}
 	else{
 		recall(recall_pos);
-
+		recall_pos = save_recall_pos();
 		if (Number())
 			return true;
 		else{
@@ -593,8 +590,10 @@ bool UnaryExp(){
 	advance();
 
 	if (tok == tok_ID){
+
 		advance();
 		if (tok == tok_LPAR){
+
 			recall_pos = save_recall_pos();
 			advance();
 			if (tok == tok_RPAR)
@@ -614,8 +613,9 @@ bool UnaryExp(){
 			return PrimaryExp();
 		}
 	}
-	else{
+	else {
 		recall(recall_pos);
+		recall_pos = save_recall_pos();
 		if (PrimaryExp())
 			return true;
 		else{

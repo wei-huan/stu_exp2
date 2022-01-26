@@ -35,7 +35,6 @@ int iscomment(char c1, char c2){
 		getChar();
 		is_incomm_block = 0;
 	}
-	
 	return (is_incomm_block || is_incomm_line);
 }
 
@@ -133,7 +132,7 @@ void checkSymbol(char c1, char c2){
 		addChar();
 		nextToken = tok_MUL;
 		break;
-	case '+': 
+	case '+':
 		addChar();
 		nextToken = tok_ADD;
 		break;
@@ -197,7 +196,7 @@ void checkSymbol(char c1, char c2){
 			addChar();
 		}
 		else{
-			nextToken = UNKNOWN;
+			nextToken = tok_NOT;
 			addChar();
 		}
 		break;
@@ -230,7 +229,7 @@ void checkSymbol(char c1, char c2){
 		addChar();
 		break;
 	default:break;
-	} 
+	}
 }
 
 void getNonBlank(void){
