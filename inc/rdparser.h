@@ -1,27 +1,34 @@
 #ifndef __RDPARSER_H
 #define __RDPARSER_H
 
+#include "man_lex.h"
+#include <dirent.h>
+#include <malloc.h>
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <stdbool.h>
-#include <dirent.h>
-#include "man_lex.h"
-#include <malloc.h>
 
-#define DEBUG_MODE	1
+#define DEBUG_MODE 1
 typedef struct _ast ast;
 typedef struct _ast *past;
-struct _ast{
-	int ivalue;
-	char ident[100];
-	char* dataType;
-	char* nodeType;
-	past left;
-	past right;
+
+typedef struct _ndata {
+    long int value;
+    char dimen;   // dimension
+	char type[10];
+    char id[30];
+} ndata, *pndata; // nodedata
+
+struct _ast {
+    ndata data;
+    char *nodeType;
+    past ls;
+    past rs;
+	past bro;
 };
 
-extern FILE* ana_file;
+extern FILE *ana_file;
 extern int nextToken;
 
 past CompUnit(void);

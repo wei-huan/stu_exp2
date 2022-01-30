@@ -26,8 +26,12 @@ int main(int argc, char**argv){
 	}
 
 	past r = Recursive_Parse();
-	ShowAst(r, 0);
-	FreeAst(r);
+
+    if(r){
+	    ShowAst(r, 0);
+	    FreeAst(r);
+    } else
+        printf("不符合SysY文法\n");
 
 	fclose(ana_file);
 	return 0;

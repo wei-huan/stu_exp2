@@ -254,6 +254,9 @@ void getNonBlank(void){
 }
 
 int lex_ana(void){
+	lex_idx = 0;
+	lex_str[0] = '\0';
+
 	getNonBlank();
 
 	switch (charClass){
@@ -293,9 +296,6 @@ int lex_ana(void){
 
 	// if(nextToken >= 256 && nextToken <= 289)
 	// 	printf("tok:%d pos:%ld lex:%s\n", nextToken, ftell(ana_file), lex_str);
-
-	lex_idx = 0;
-	lex_str[0] = '\0';
 	return nextToken;
 }
 

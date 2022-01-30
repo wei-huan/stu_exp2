@@ -1,14 +1,6 @@
 {
-	"files.associations": {
-		"stdbool.h": "c",
-		"rdcheck.h": "c",
-		"string.h": "c",
-		"man_lex.h": "c",
-		"ctype.h": "c",
-		"stdio.h": "c",
-		"cstdio": "c",
-		"cmath": "c",
-		"rdparser.h": "c"
-	},
-	"C_Cpp.errorSquiggles": "Disabled"
+    "files.associations": {
+        "rdparser.h": "c"
+    },
+    "C_Cpp.errorSquiggles": "Disabled"
 }

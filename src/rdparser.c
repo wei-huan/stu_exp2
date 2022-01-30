@@ -27,8 +27,22 @@ void recall(int last_pos) {
     getChar();
 }
 
+void AstAppendBro(past *fstnode, past addnode) {
+    if (!*fstnode) {
+        *fstnode = addnode;
+        return;
+    }
+
+    past s = *fstnode;
+
+    while (s->bro)
+        s = s->bro;
+
+    s->bro = addnode;
+}
+
 past newAstNode() {
-    past node = malloc(sizeof(ast));
+    past node = (past)malloc(sizeof(ast));
     if (!node) {
         printf("run out of memory.\n");
         exit(0);
@@ -40,109 +54,84 @@ past newAstNode() {
 past newType(char *typename) {
     past type = newAstNode();
     type->nodeType = "Type";
-    type->dataType = typename;
+    strcpy(type->data.type, typename);
     return type;
 }
 
 past newNum(int value) {
     past num = newAstNode();
-    num->nodeType = "IntValue";
-    num->ivalue = value;
+    num->nodeType = "Num";
+    num->data.value = value;
     return num;
 }
 
-// past newVariable_List(past variable, past variable_list){
-// 	past newvariable_list = newAstNode();
-// 	newvariable_list
-// }
-
-past newVar(char *name, int dimension, past dimension_list) {
+past newVar(char *name, int dimension, past dimen_list, past data_list) {
     past var = newAstNode();
-    strcpy(var->ident, name);
+    strcpy(var->data.id, name);
     var->nodeType = "Varible";
-    var->ivalue = dimension;
-    var->left = dimension_list;
+    var->data.dimen = dimension;
+    var->ls = dimen_list;
+    var->rs = data_list;
     return var;
 }
 
 past newDimension_List(past dimension, past dimension_list) {
     past newdimension_list = newAstNode();
     newdimension_list->nodeType = "Dimension_List";
-    newdimension_list->left = dimension;
-    newdimension_list->right = dimension_list;
+    // newdimension_list->ls = dimension;
+    // newdimension_list->bro_rs = dimension_list;
     return newdimension_list;
 }
 
-// past newDimension(int length){
-// 	past dimension = newAstNode();
-// 	dimension->nodeType = "Dimension";
-// 	dimension->ivalue = length;
-// 	return dimension;
-// }
-
-past newOpcode(char *op, past left, past right) {
+past newOpcode(char *op, past ls, past rs) {
     past opcode = newAstNode();
-    opcode->nodeType = op;
-    opcode->left = left;
-    opcode->right = right;
+    opcode->nodeType = "Opcode";
+    strcpy(opcode->data.type, op);
+    opcode->ls = ls;
+    opcode->rs = rs;
     return opcode;
 }
 
-past newFuncDef_or_Decl_list(past funcdef_or_decl, past funcdef_or_decl_list) {
-    past f_or_d_list = newAstNode();
-    f_or_d_list->nodeType = "FuncDef_or_Decl_list";
-    f_or_d_list->left = funcdef_or_decl;
-    f_or_d_list->right = funcdef_or_decl_list;
-    return f_or_d_list;
-}
-
-past newFuncDef(past funcfparams_list, past block, char *ident, char *rettype) {
+past newFuncDef(past params, past block, char *id, char *rettype) {
     past funcdef = newAstNode();
-    strcpy(funcdef->ident, ident);
     funcdef->nodeType = "FuncDef";
-    funcdef->dataType = rettype;
-    funcdef->left = funcfparams_list;
-    funcdef->right = block;
+    strcpy(funcdef->data.id, id);
+    strcpy(funcdef->data.type, rettype);
+    funcdef->ls = params;
+    funcdef->rs = block;
     return funcdef;
 }
 
-past newFuncFParam(char *type, char *ident, int dimension,
-					past dimension_list) {
+past newFuncFParam(char *type, char *id, int dimen,
+                   past dimension_list) {
     past funcfparam = newAstNode();
-    funcfparam->nodeType = type;
-    funcfparam->ivalue = dimension;
-    funcfparam->left = dimension_list;
-    strcpy(funcfparam->ident, ident);
+    funcfparam->nodeType = "FuncParam";
+    funcfparam->data.dimen = dimen;
+    strcpy(funcfparam->data.type, type);
+    strcpy(funcfparam->data.id, id);
+    // funcfparam->ls = dimension_list;
     return funcfparam;
-}
-
-past newFuncFParams(past funcparam, past funcparams) {
-    past newfuncparams = newAstNode();
-    newfuncparams->left = funcparam;
-    newfuncparams->right = funcparams;
-    newfuncparams->nodeType = "FuncParams";
-    return newfuncparams;
 }
 
 past newBlock_list(past decl_or_stmt, past block_list) {
     past newblock_list = newAstNode();
     newblock_list->nodeType = "Block_List";
-    newblock_list->left = decl_or_stmt;
-    newblock_list->right = block_list;
+    // newblock_list->ls = decl_or_stmt;
+    // newblock_list->bro_rs = block_list;
     return newblock_list;
 }
 
 past newBlock(past block_list) {
     past block = newAstNode();
     block->nodeType = "Block";
-    block->right = block_list;
+    block->rs = block_list;
     return block;
 }
 
 past newInitVal(past exp_or_initval, past initvals) {
     past newinitval = newAstNode();
-    newinitval->left = exp_or_initval;
-    newinitval->right = initvals;
+    // newinitval->ls = exp_or_initval;
+    // newinitval->bro_rs = initvals;
 
     if (!initvals)
         newinitval->nodeType = "InitVal";
@@ -155,64 +144,56 @@ past newInitVal(past exp_or_initval, past initvals) {
 past newConstDef_List(past constdef, past constdef_list) {
     past newconstdef_list = newAstNode();
     newconstdef_list->nodeType = "ConstDefList";
-    newconstdef_list->left = constdef;
-    newconstdef_list->right = constdef_list;
+    // newconstdef_list->ls = constdef;
+    // newconstdef_list->bro_rs = constdef_list;
     return constdef_list;
 }
 
 past newConstDecl(past type, past constdef_list) {
     past constdecl = newAstNode();
     constdecl->nodeType = "ConstDecl";
-    constdecl->left = type;
-    constdecl->right = constdef_list;
+    strcpy(constdecl->data.type, type->data.type);
+    constdecl->ls = constdef_list;
     return constdecl;
 }
 
 past newConstInitVal_List(past constinitval, past constinitval_list) {
     past newconstinitval_list = newAstNode();
     newconstinitval_list->nodeType = "ConstInitVal_List";
-    newconstinitval_list->left = constinitval;
-    newconstinitval_list->right = constinitval_list;
+    // newconstinitval_list->ls = constinitval;
+    // newconstinitval_list->bro_rs = constinitval_list;
     return newconstinitval_list;
 }
 
-past newVarDecl(past type, past vardef_list) {
+past newVarDecl(char* type, past var) {
     past vardecl = newAstNode();
     vardecl->nodeType = "VarDecl";
-    vardecl->left = type;
-    vardecl->right = vardef_list;
+    strcpy(vardecl->data.type, type);
+    vardecl->ls = var;
     return vardecl;
 }
 
 past newVarDef_List(past vardef, past vardef_list) {
     past newvardef_list = newAstNode();
     newvardef_list->nodeType = "VarDef_List";
-    newvardef_list->left = vardef;
-    newvardef_list->right = vardef_list;
+    // newvardef_list->ls = vardef;
+    // newvardef_list->bro_rs = vardef_list;
     return newvardef_list;
 }
 
-past newFunc(char *funcname, past funcrparams_list) {
-    past func = newAstNode();
-    strcpy(func->ident, funcname);
-    func->nodeType = "Func";
-    func->left = funcrparams_list;
-    return func;
-}
-
-past newFuncRParams_List(past funcrparam, past funcrparams_list) {
-    past newfuncrparams_list = newAstNode();
-    newfuncrparams_list->nodeType = "FuncRParams_List";
-    newfuncrparams_list->left = funcrparam;
-    newfuncrparams_list->right = funcrparams_list;
-    return newfuncrparams_list;
+past newFuncCall(char *funcname, past funcrparams_list) {
+    past funccall = newAstNode();
+    strcpy(funccall->data.id, funcname);
+    funccall->nodeType = "FuncCall";
+    funccall->ls = funcrparams_list;
+    return funccall;
 }
 
 past newWhileStmt(past cond, past stmt) {
     past whilestmt = newAstNode();
     whilestmt->nodeType = "WhileStmt";
-    whilestmt->left = cond;
-    whilestmt->right = stmt;
+    whilestmt->ls = cond;
+    whilestmt->rs = stmt;
     return whilestmt;
 }
 
@@ -225,7 +206,7 @@ past newContinueStmt() {
 past newReturnStmt(past exp) {
     past returnstmt = newAstNode();
     returnstmt->nodeType = "ReturnStmt";
-    returnstmt->left = exp;
+    returnstmt->ls = exp;
     return returnstmt;
 }
 
@@ -235,25 +216,19 @@ past newBreakStmt() {
     return breakstmt;
 }
 
-past newSelectStmt(past ifstmt, past elsestmt) {
-    past selectstmt = newAstNode();
-    selectstmt->nodeType = "SelectStmt";
-    selectstmt->left = ifstmt;
-    selectstmt->right = elsestmt;
-    return selectstmt;
-}
-
-past newIfStmt(past cond, past stmt) {
+past newIfStmt(past cond, past stmt, past else_stmt) {
     past ifstmt = newAstNode();
     ifstmt->nodeType = "IfStmt";
-    ifstmt->left = cond;
-    ifstmt->right = stmt;
+    ifstmt->ls = cond;
+    ifstmt->rs = stmt;
+    ifstmt->bro = else_stmt;
     return ifstmt;
 }
 
-past newElseStmt() {
+past newElseStmt(past stmt) {
     past elsestmt = newAstNode();
     elsestmt->nodeType = "ElseStmt";
+    elsestmt->ls = stmt;
     return elsestmt;
 }
 
@@ -265,15 +240,15 @@ past newNullStmt() {
 
 past CompUnit() {
     int recall_pos;
-    past funcdef_or_decl_list = NULL;
+    past CompUnit_List = NULL;
 
     while (1) {
         recall_pos = save_recall_pos();
         advance();
 
-        if (tok == tok_EOF) {
-            return funcdef_or_decl_list;
-        } else {
+        if (tok == tok_EOF)
+            return CompUnit_List;
+        else {
             recall(recall_pos);
             past funcdef = FuncDef();
 
@@ -281,33 +256,25 @@ past CompUnit() {
                 recall(recall_pos);
                 past decl = Decl();
 
-                if (!decl) {
+                if (!decl)
                     return NULL;
-                } else {
-                    funcdef_or_decl_list = newFuncDef_or_Decl_list(decl, funcdef_or_decl_list);
-                }
-            } else {
-                funcdef_or_decl_list = newFuncDef_or_Decl_list(funcdef, funcdef_or_decl_list);
-            }
+                else
+                    AstAppendBro(&CompUnit_List, decl);
+            } else
+                AstAppendBro(&CompUnit_List, funcdef);
         }
     }
 }
 
 past Decl() {
-    int recall_pos = save_recall_pos(recall_pos);
+    int recall_pos = save_recall_pos();
 
     past constdecl = ConstDecl();
-    if (constdecl != NULL) {
+    if (constdecl)
         return constdecl;
-    } else {
+    else {
         recall(recall_pos);
-
-        past vardecl = VarDecl();
-        if (vardecl != NULL) {
-            return vardecl;
-        } else {
-            return NULL;
-        }
+        return VarDecl();
     }
 }
 
@@ -317,18 +284,19 @@ past ConstDecl() {
     advance();
     if (tok == tok_CONST) {
         past btype = BType();
-        if (btype != NULL) {
+        if (btype) {
             past constdef = ConstDef();
-            if (constdef != NULL) {
-                constdef_list = newConstDef_List(constdef, constdef_list);
+            if (constdef) {
 
+                AstAppendBro(&constdef_list, constdef);
                 advance();
+
                 if (tok == tok_COMMA) {
                     while (1) {
                         past constdef = ConstDef();
-                        if (constdef != NULL) {
-                            constdef_list =
-                                newConstDef_List(constdef, constdef_list);
+                        if (constdef) {
+
+                            AstAppendBro(&constdef_list, constdef);
                             advance();
 
                             if (tok != tok_COMMA)
@@ -338,17 +306,12 @@ past ConstDecl() {
                         }
                     }
 
-                    if (tok == tok_SEMICOLON) {
-                        past constdecl = newConstDecl(btype, constdef_list);
-
-                        return constdecl;
-                    } else {
+                    if (tok == tok_SEMICOLON)
+                        return newConstDecl(btype, constdef_list);
+                    else
                         return NULL;
-                    }
                 } else if (tok == tok_SEMICOLON) {
-                    past constdecl = newConstDecl(btype, constdef);
-
-                    return constdecl;
+                    return newConstDecl(btype, constdef_list);
                 } else {
                     return NULL;
                 }
@@ -367,36 +330,32 @@ past ConstDef() {
     advance();
 
     if (tok == tok_ID) {
-        char id_str[100];
+        char id_str[10];
         strcpy(id_str, lex_str);
 
         advance();
 
         if (tok == tok_ASSIGN) {
-            past const_variable = newVar(id_str, 0, NULL);
             past constinitval = ConstInitVal();
-            if (constinitval != NULL) {
-                past constdef_assign =
-                    newOpcode("=", const_variable, constinitval);
-
-                return constdef_assign;
+            if (constinitval) {
+                return newVar(id_str, 0, NULL, constinitval);
             } else {
                 return NULL;
             }
         } else if (tok == tok_LSQUARE) {
             past constexp = ConstExp();
-            if (constexp != NULL) {
+            if (constexp) {
                 advance();
 
                 if (tok == tok_RSQUARE) {
                     past dimension_list = newDimension_List(constexp, NULL);
-                    past const_variable = newVar(id_str, 1, dimension_list);
+                    past const_variable = newVar(id_str, 1, NULL, dimension_list);
                     advance();
 
                     if (tok == tok_ASSIGN) {
                         past constinitval = ConstInitVal();
 
-                        if (constinitval != NULL) {
+                        if (constinitval) {
                             past constdef_assign =
                                 newOpcode("=", const_variable, constdef_assign);
 
@@ -424,12 +383,10 @@ past ConstDef() {
 past BType() {
     advance();
 
-    if (tok == tok_INT) {
-        past type = newType(lex_str);
-        return type;
-    } else {
+    if (tok == tok_INT)
+        return newType(lex_str);
+    else
         return NULL;
-    }
 }
 
 past VarDecl() {
@@ -437,50 +394,45 @@ past VarDecl() {
     int last_pos = save_recall_pos();
 
     past btype = BType();
-    if (btype != NULL) {
+    if (btype) {
         past vardef = VarDef();
-        if (vardef != NULL) {
+        if (vardef) {
             advance();
 
-            if (tok == tok_SEMICOLON) {
-                past vardecl = newVarDecl(btype, vardef);
-
-                return vardecl;
-            } else {
+            if (tok == tok_SEMICOLON)
+                return newVarDecl(btype->data.type, vardef);
+            else {
                 while (1) {
                     if (tok == tok_COMMA) {
-                        vardef_list = newVarDef_List(vardef, vardef_list);
+                        past newvardef = VarDef();
 
-                        vardef = VarDef();
-                        if (vardef != NULL)
+                        if (newvardef){
+                            AstAppendBro(&vardef, newvardef);
                             advance();
-                        else {
-                            return NULL;
                         }
+                        else
+                            return NULL;
                     } else
                         break;
                 }
 
                 if (tok == tok_SEMICOLON) {
-                    past vardecl = newVarDecl(btype, vardef);
-
-                    return vardecl;
+                    return newVarDecl(btype->data.type, vardef);
                 } else {
                     return NULL;
                 }
             }
-        } else {
+        } else
             return NULL;
-        }
-    } else {
+    } else
         return NULL;
-    }
 }
 
 past VarDef() {
     int dimension = 0;
-    past dimension_list = NULL;
+    past dimen_list = NULL;
 
+    advance();
     if (tok == tok_ID) {
         char id_str[100];
         strcpy(id_str, lex_str);
@@ -489,71 +441,64 @@ past VarDef() {
         advance();
 
         if (tok == tok_ASSIGN) {
-            past var = newVar(id_str, 0, NULL);
             past initval = InitVal();
 
-            if (initval != NULL) {
-                past opcode = newOpcode("=", var, initval);
-
-                return opcode;
-            } else {
+            if (initval) {
+                if (initval->nodeType == "Num"){
+                    past var = newVar(id_str, initval->data.value, NULL, NULL);
+                    return var;
+                }
+                else
+                    return NULL;
+            } else
                 return NULL;
-            }
+
         } else if (tok == tok_LSQUARE) {
             while (1) {
                 if (tok == tok_LSQUARE) {
                     past constexp = ConstExp();
-                    if (constexp != NULL) {
+                    if (constexp) {
                         advance();
 
                         if (tok == tok_RSQUARE) {
                             dimension++;
-                            dimension_list =
-                                newDimension_List(constexp, dimension_list);
+                            AstAppendBro(&dimen_list, constexp);
+
                             recall_pos = save_recall_pos();
                             advance();
-                        } else {
+                        } else
                             return NULL;
-                        }
-                    } else {
+                    } else
                         return NULL;
-                    }
                 } else
                     break;
             }
 
-            past var = newVar(id_str, dimension, dimension_list);
-
+            past var = newVar(id_str, dimension, dimen_list, NULL);
             if (tok == tok_ASSIGN) {
                 past initval = InitVal();
-                if (initval != NULL) {
-                    past opcode = newOpcode("=", var, initval);
-
-                    return opcode;
-                } else {
+                if (initval) {
+                    past var = newVar(id_str, dimension, dimen_list, initval);
+                    return var;
+                } else
                     return NULL;
-                }
             } else {
                 recall(recall_pos);
-
                 return var;
             }
         } else {
             recall(recall_pos);
-            past var = newVar(id_str, 0, NULL);
-
-            return var;
+            return newVar(id_str, 0, NULL, NULL);
         }
-    } else {
+    } else
         return NULL;
-    }
 }
 
 past FuncDef() {
     int last_pos;
 
     past type = FuncType();
-    if (type != NULL) {
+    if (type) {
         advance();
 
         if (tok == tok_ID) {
@@ -567,32 +512,24 @@ past FuncDef() {
 
                 if (tok == tok_RPAR) {
                     past block = Block();
-                    if (block != NULL) {
-                        past funcdef =
-                            newFuncDef(NULL, block, id_str, type->dataType);
-
-                        return funcdef;
-                    } else {
+                    if (block)
+                        return newFuncDef(NULL, block, id_str, type->data.type);
+                    else
                         return NULL;
-                    }
                 } else {
                     recall(last_pos);
 
                     past funcfarams = FuncFParams();
 
-                    if (funcfarams != NULL) {
+                    if (funcfarams) {
                         advance();
 
                         if (tok == tok_RPAR) {
                             past block = Block();
-                            if (block != NULL) {
-                                past funcdef = newFuncDef(
-                                    funcfarams, block, id_str, type->dataType);
-
-                                return funcdef;
-                            } else {
+                            if (block)
+                                return newFuncDef(funcfarams, block, id_str, type->data.type);
+                            else
                                 return NULL;
-                            }
                         } else {
                             return NULL;
                         }
@@ -628,7 +565,7 @@ past ConstInitVal() {
 
         while (1) {
             past constinitval = ConstInitVal();
-            if (constinitval != NULL) {
+            if (constinitval) {
                 advance();
 
                 if (tok == tok_COMMA) {
@@ -648,7 +585,7 @@ past ConstInitVal() {
         recall(recall_pos);
 
         past constexp = ConstExp();
-        if (constexp != NULL) {
+        if (constexp) {
             return constexp;
         } else {
             return NULL;
@@ -658,14 +595,10 @@ past ConstInitVal() {
 
 past FuncType() {
     advance();
-
-    if (tok == tok_VOID || tok == tok_INT) {
-        past type = newType(lex_str);
-
-        return type;
-    } else {
+    if (tok == tok_VOID || tok == tok_INT)
+        return newType(lex_str);
+    else
         return NULL;
-    }
 }
 
 past FuncFParams() {
@@ -676,20 +609,17 @@ past FuncFParams() {
     while (1) {
         past funcfparam = FuncFParam();
 
-        if (funcfparam != NULL) {
-            past funcfparams = newFuncFParams(funcfparam, funcfparams);
-
+        if (funcfparam) {
+            AstAppendBro(&funcfparams, funcfparam);
             recall_pos = save_recall_pos();
             advance();
 
             if (tok != tok_COMMA) {
                 recall(recall_pos);
-
                 return funcfparams;
             }
-        } else {
+        } else
             return NULL;
-        }
     }
 }
 
@@ -698,14 +628,14 @@ past FuncFParam() {
     past dimension_list = NULL;
     int recall_pos;
 
-    if (BType() != NULL) {
-        char type_str[100];
+    if (BType()) {
+        char type_str[10];
         strcpy(type_str, lex_str);
 
         advance();
 
         if (tok == tok_ID) {
-            char id_str[100];
+            char id_str[30];
             strcpy(id_str, lex_str);
 
             recall_pos = save_recall_pos();
@@ -725,7 +655,7 @@ past FuncFParam() {
                         if (tok == tok_LSQUARE) {
                             past exp = Exp();
 
-                            if (exp != NULL) {
+                            if (exp) {
                                 advance();
 
                                 if (tok == tok_RSQUARE) {
@@ -752,9 +682,7 @@ past FuncFParam() {
                 }
             } else {
                 recall(recall_pos);
-                past funcfparam = newFuncFParam(type_str, id_str, 0, NULL);
-
-                return funcfparam;
+                return newFuncFParam(type_str, id_str, 0, NULL);
             }
         } else {
             return NULL;
@@ -766,9 +694,7 @@ past FuncFParam() {
 
 past Block() {
     int recall_pos;
-    past block = NULL;
     past block_list = NULL;
-
     advance();
 
     if (tok == tok_LBRACKET) {
@@ -777,51 +703,38 @@ past Block() {
         advance();
 
         if (tok == tok_RBRACKET) {
-            block = newBlock(NULL);
-
-            return block;
+            return newBlock(NULL);
         } else {
             recall(recall_pos);
 
             while (1) {
                 past blockitem = BlockItem();
-                if (blockitem != NULL) {
+                if (blockitem) {
+                    AstAppendBro(&block_list, blockitem);
                     recall_pos = save_recall_pos();
                     advance();
 
-                    if (tok == tok_RBRACKET) {
-                        past block = newBlock(block_list);
-
-                        return block;
-                    } else {
-                        block_list = newBlock_list(blockitem, block_list);
+                    if (tok == tok_RBRACKET)
+                        return newBlock(block_list);
+                    else
                         recall(recall_pos);
-                    }
-                } else {
+                } else
                     return NULL;
-                }
             }
         }
-    } else {
+    } else
         return NULL;
-    }
 }
 
 past BlockItem() {
     int recall_pos = save_recall_pos();
 
     past stmt = Stmt();
-    if (!stmt) {
-        recall(recall_pos);
-
-        past decl = Decl();
-        if (decl != NULL) {
-            return decl;
-        } else {
-            return NULL;
-        }
-    } else {
+    if (stmt)
         return stmt;
+    else{
+        recall(recall_pos);
+        return Decl();
     }
 }
 
@@ -834,30 +747,28 @@ past Stmt() {
 
         if (tok == tok_LPAR) {
             past cond = Cond();
-            if (cond != NULL) {
+            if (cond) {
                 advance();
 
                 if (tok == tok_RPAR) {
                     past stmt = Stmt();
-                    if (stmt != NULL) {
-                        past ifstmt = newIfStmt(cond, stmt);
+                    if (stmt) {
 
                         recall_pos = save_recall_pos();
                         advance();
 
                         if (tok == tok_ELSE) {
                             past else_stmt = Stmt();
-                            if (else_stmt != NULL) {
-                                past selectstmt =
-                                    newSelectStmt(ifstmt, else_stmt);
-
-                                return selectstmt;
+                            if (else_stmt) {
+                                past ifstmt = newIfStmt(cond, stmt, newElseStmt(else_stmt));
+                                return ifstmt;
                             } else {
                                 return NULL;
                             }
                         } else {
                             recall(recall_pos);
 
+                            past ifstmt = newIfStmt(cond, stmt, NULL);
                             return ifstmt;
                         }
                     } else {
@@ -877,11 +788,11 @@ past Stmt() {
 
         if (tok == tok_LPAR) {
             past cond = Cond();
-            if (cond != NULL) {
+            if (cond) {
                 advance();
                 if (tok == tok_RPAR) {
                     past stmt = Stmt();
-                    if (stmt != NULL) {
+                    if (stmt) {
                         past while_stmt = newWhileStmt(cond, stmt);
 
                         return while_stmt;
@@ -901,9 +812,7 @@ past Stmt() {
         advance();
 
         if (tok == tok_SEMICOLON) {
-            past breakstmt = newBreakStmt();
-
-            return breakstmt;
+            return newBreakStmt();
         } else {
             return NULL;
         }
@@ -911,9 +820,7 @@ past Stmt() {
         advance();
 
         if (tok == tok_SEMICOLON) {
-            past continuestmt = newContinueStmt();
-
-            return continuestmt;
+            return newContinueStmt();
         } else {
             return NULL;
         }
@@ -930,7 +837,7 @@ past Stmt() {
         recall(recall_pos);
 
         past exp = Exp();
-        if (exp != NULL) {
+        if (exp) {
             advance();
 
             if (tok == tok_SEMICOLON) {
@@ -952,17 +859,15 @@ past Stmt() {
         recall_pos = save_recall_pos();
 
         past lval = LVal();
-        if (lval != NULL) {
+        if (lval) {
             advance();
 
             if (tok == tok_ASSIGN) {
                 past exp = Exp();
-                if (exp != NULL) {
+                if (exp) {
                     advance();
                     if (tok == tok_SEMICOLON) {
-                        past assign_stmt = newOpcode("=", lval, exp);
-
-                        return assign_stmt;
+                        return newOpcode("=", lval, exp);
                     } else {
                         return NULL;
                     }
@@ -973,7 +878,7 @@ past Stmt() {
                 recall(recall_pos);
 
                 past exp = Exp();
-                if (exp != NULL) {
+                if (exp) {
                     advance();
 
                     if (tok == tok_SEMICOLON) {
@@ -989,7 +894,7 @@ past Stmt() {
             recall(recall_pos);
 
             past exp = Exp();
-            if (exp != NULL) {
+            if (exp) {
                 advance();
 
                 if (tok == tok_SEMICOLON) {
@@ -1001,7 +906,7 @@ past Stmt() {
                 recall(recall_pos);
 
                 past block = Block();
-                if (block != NULL) {
+                if (block) {
                     return block;
                 } else {
                     return NULL;
@@ -1012,22 +917,11 @@ past Stmt() {
 }
 
 past Exp() {
-    past exp = AddExp();
-
-    if (exp != NULL) {
-        return exp;
-    } else {
-        return NULL;
-    }
+    return AddExp();
 }
 
 past Cond() {
-    past lorexp = LOrExp();
-    if (lorexp != NULL) {
-        return lorexp;
-    } else {
-        return NULL;
-    }
+    return LOrExp();
 }
 
 past LVal() {
@@ -1046,7 +940,7 @@ past LVal() {
             if (tok == tok_LSQUARE) {
                 past exp = Exp();
 
-                if (exp != NULL) {
+                if (exp) {
                     advance();
 
                     if (tok == tok_RSQUARE) {
@@ -1061,15 +955,11 @@ past LVal() {
                 }
             } else {
                 recall(recall_pos);
-
-                past var = newVar(id_str, 0, dimension_list);
-
-                return var;
+                return newVar(id_str, 0, NULL, dimension_list);
             }
         }
-    } else {
+    } else
         return NULL;
-    }
 }
 
 past PrimaryExp() {
@@ -1078,7 +968,7 @@ past PrimaryExp() {
 
     if (tok == tok_LPAR) {
         past exp = Exp();
-        if (exp != NULL) {
+        if (exp) {
             advance();
 
             if (tok == tok_RPAR) {
@@ -1093,17 +983,12 @@ past PrimaryExp() {
         recall(recall_pos);
 
         past num = Number();
-        if (num != NULL) {
+        if (num) {
             return num;
         } else {
             recall(recall_pos);
 
-            past lval = LVal();
-            if (lval != NULL) {
-                return lval;
-            } else {
-                return NULL;
-            }
+            return LVal();
         }
     }
 }
@@ -1112,9 +997,7 @@ past Number() {
     advance();
 
     if (tok == tok_INTEGER) {
-        past num = newNum(atoi(lex_str));
-
-        return num;
+        return newNum(atoi(lex_str));
     } else {
         return NULL;
     }
@@ -1135,20 +1018,16 @@ past UnaryExp() {
             advance();
 
             if (tok == tok_RPAR) {
-                past func = newFunc(id_str, NULL);
-
-                return func;
+                return newFuncCall(id_str, NULL);
             } else {
                 recall(recall_pos);
 
                 past funcrparams = FuncRParams();
-                if (funcrparams != NULL) {
+                if (funcrparams) {
                     advance();
 
                     if (tok == tok_RPAR) {
-                        past func = newFunc(id_str, funcrparams);
-
-                        return func;
+                        return newFuncCall(id_str, funcrparams);
                     } else {
                         return NULL;
                     }
@@ -1159,27 +1038,22 @@ past UnaryExp() {
         } else {
             recall(recall_pos);
 
-            past primaryexp = PrimaryExp();
-            if (primaryexp != NULL) {
-                return primaryexp;
-            } else {
-                return NULL;
-            }
+            return PrimaryExp();
         }
     } else {
         recall(recall_pos);
 
         past primaryexp = PrimaryExp();
-        if (primaryexp != NULL) {
+        if (primaryexp) {
             return primaryexp;
         } else {
             recall(recall_pos);
 
             past opcode = UnaryOp();
-            if (opcode != NULL) {
+            if (opcode) {
                 past unaryexp = UnaryExp();
-                if (unaryexp != NULL) {
-                    opcode->right = unaryexp;
+                if (unaryexp) {
+                    opcode->rs = unaryexp;
 
                     return opcode;
                 } else {
@@ -1195,9 +1069,7 @@ past UnaryExp() {
 past UnaryOp() {
     advance();
     if (tok == tok_ADD || tok == tok_SUB || tok == tok_NOT) {
-        past opcode = newOpcode(lex_str, NULL, NULL);
-
-        return opcode;
+        return newOpcode(lex_str, NULL, NULL);
     } else {
         return NULL;
     }
@@ -1208,16 +1080,16 @@ past FuncRParams() {
     int recall_pos;
 
     past exp = Exp();
-    if (exp != NULL) {
+    if (exp) {
         recall_pos = save_recall_pos();
         advance();
 
         while (1) {
             if (tok == tok_COMMA) {
-                funcrparams_list = newFuncRParams_List(exp, funcrparams_list);
+                AstAppendBro(&funcrparams_list, exp);
 
                 exp = Exp();
-                if (exp != NULL) {
+                if (exp) {
                     recall_pos = save_recall_pos();
                     advance();
                 } else {
@@ -1225,8 +1097,8 @@ past FuncRParams() {
                 }
             } else {
                 recall(recall_pos);
-                funcrparams_list = newFuncRParams_List(exp, funcrparams_list);
 
+                AstAppendBro(&funcrparams_list, exp);
                 return funcrparams_list;
             }
         }
@@ -1237,7 +1109,7 @@ past FuncRParams() {
 
 past MulExp() {
     past unaryexp = UnaryExp();
-    if (unaryexp != NULL) {
+    if (unaryexp) {
         int recall_pos = save_recall_pos();
 
         advance();
@@ -1252,8 +1124,8 @@ past MulExp() {
         recall_pos = save_recall_pos();
 
         past mulexp_extend = MulExp_Extend();
-        if (mulexp_extend != NULL) {
-            mulexp_extend->left = unaryexp;
+        if (mulexp_extend) {
+            mulexp_extend->ls = unaryexp;
 
             return mulexp_extend;
         } else {
@@ -1270,7 +1142,7 @@ past AddExp() {
     int recall_pos = save_recall_pos();
 
     past mulexp = MulExp();
-    if (mulexp != NULL) {
+    if (mulexp) {
         recall_pos = save_recall_pos();
         advance();
 
@@ -1281,14 +1153,13 @@ past AddExp() {
         }
 
         recall(recall_pos);
-
         int recall_pos = save_recall_pos();
 
-        past addexp_extend = AddExp_Extend();
-        if (addexp_extend != NULL) {
-            addexp_extend->left = mulexp;
+        past addexp = AddExp_Extend();
+        if (addexp) {
+            addexp->ls = mulexp;
 
-            return addexp_extend;
+            return addexp;
         } else {
             recall(recall_pos);
 
@@ -1301,12 +1172,12 @@ past AddExp() {
 
 past RelExp() {
     past addexp = AddExp();
-    if (addexp != NULL) {
+    if (addexp) {
         int recall_pos = save_recall_pos();
 
         past relexp_extend = RelExp_Extend();
-        if (relexp_extend != NULL) {
-            relexp_extend->left = addexp;
+        if (relexp_extend) {
+            relexp_extend->ls = addexp;
             return relexp_extend;
         } else {
             recall(recall_pos);
@@ -1318,12 +1189,12 @@ past RelExp() {
 
 past EqExp() {
     past relexp = RelExp();
-    if (relexp != NULL) {
+    if (relexp) {
         int recall_pos = save_recall_pos();
 
         past eqexp_extend = EqExp_Extend();
-        if (eqexp_extend != NULL) {
-            eqexp_extend->left = relexp;
+        if (eqexp_extend) {
+            eqexp_extend->ls = relexp;
         } else {
             recall(recall_pos);
             return relexp;
@@ -1334,12 +1205,12 @@ past EqExp() {
 
 past LAndExp() {
     past eqexp = EqExp();
-    if (eqexp != NULL) {
+    if (eqexp) {
         int recall_pos = save_recall_pos();
 
         past landexp_extend = LAndExp_Extend();
-        if (landexp_extend != NULL) {
-            landexp_extend->left = eqexp;
+        if (landexp_extend) {
+            landexp_extend->ls = eqexp;
         } else {
             recall(recall_pos);
             return eqexp;
@@ -1350,12 +1221,12 @@ past LAndExp() {
 
 past LOrExp() {
     past landexp = LAndExp();
-    if (landexp != NULL) {
+    if (landexp) {
         int recall_pos = save_recall_pos();
 
         past lorexp_extend = LOrExp_Extend();
-        if (lorexp_extend != NULL) {
-            lorexp_extend->left = landexp;
+        if (lorexp_extend) {
+            lorexp_extend->ls = landexp;
         } else {
             recall(recall_pos);
             return landexp;
@@ -1373,12 +1244,12 @@ past MulExp_Extend(void) {
         strcpy(opcode_str, lex_str);
 
         past unaryexp = UnaryExp();
-        if (unaryexp != NULL) {
+        if (unaryexp) {
             recall_pos = save_recall_pos();
             past mulexp_extend = MulExp_Extend();
 
-            if (mulexp_extend != NULL) {
-                mulexp_extend->left = unaryexp;
+            if (mulexp_extend) {
+                mulexp_extend->ls = unaryexp;
                 past opcode = newOpcode(opcode_str, NULL, mulexp_extend);
 
                 return opcode;
@@ -1405,20 +1276,18 @@ past AddExp_Extend(void) {
         strcpy(opcode_str, lex_str);
 
         past mulexp = MulExp();
-        if (mulexp != NULL) {
+        if (mulexp) {
             recall_pos = save_recall_pos();
             past addexp_extend = AddExp_Extend();
 
-            if (addexp_extend != NULL) {
-                addexp_extend->left = mulexp;
+            if (addexp_extend) {
+                addexp_extend->ls = mulexp;
                 past opcode = newOpcode(opcode_str, NULL, addexp_extend);
 
                 return opcode;
             } else {
                 recall(recall_pos);
-                past opcode = newOpcode(opcode_str, NULL, mulexp);
-
-                return opcode;
+                return newOpcode(opcode_str, NULL, mulexp);
             }
         } else {
             return NULL;
@@ -1438,12 +1307,12 @@ past RelExp_Extend(void) {
         strcpy(opcode_str, lex_str);
 
         past addexp = AddExp();
-        if (addexp != NULL) {
+        if (addexp) {
             recall_pos = save_recall_pos();
             past relexp_extend = RelExp_Extend();
 
-            if (relexp_extend != NULL) {
-                relexp_extend->left = addexp;
+            if (relexp_extend) {
+                relexp_extend->ls = addexp;
                 past opcode = newOpcode(opcode_str, NULL, relexp_extend);
 
                 return opcode;
@@ -1472,12 +1341,12 @@ past EqExp_Extend(void) {
         strcpy(opcode_str, lex_str);
 
         past relexp = RelExp();
-        if (relexp != NULL) {
+        if (relexp) {
             recall_pos = save_recall_pos();
             past eqexp_extend = EqExp_Extend();
 
-            if (eqexp_extend != NULL) {
-                eqexp_extend->left = relexp;
+            if (eqexp_extend) {
+                eqexp_extend->ls = relexp;
                 past opcode = newOpcode(opcode_str, NULL, eqexp_extend);
 
                 return opcode;
@@ -1504,12 +1373,12 @@ past LAndExp_Extend(void) {
         strcpy(opcode_str, lex_str);
 
         past eqexp = EqExp();
-        if (eqexp != NULL) {
+        if (eqexp) {
             recall_pos = save_recall_pos();
             past landexp_extend = LAndExp_Extend();
 
-            if (landexp_extend != NULL) {
-                landexp_extend->left = eqexp;
+            if (landexp_extend) {
+                landexp_extend->ls = eqexp;
                 past opcode = newOpcode(opcode_str, NULL, landexp_extend);
 
                 return opcode;
@@ -1536,12 +1405,12 @@ past LOrExp_Extend(void) {
         strcpy(opcode_str, lex_str);
 
         past landexp = LAndExp();
-        if (landexp != NULL) {
+        if (landexp) {
             recall_pos = save_recall_pos();
             past lorexp_extend = LOrExp_Extend();
 
-            if (lorexp_extend != NULL) {
-                lorexp_extend->left = landexp;
+            if (lorexp_extend) {
+                lorexp_extend->ls = landexp;
                 past opcode = newOpcode(opcode_str, NULL, lorexp_extend);
 
                 return opcode;
@@ -1560,12 +1429,7 @@ past LOrExp_Extend(void) {
 }
 
 past ConstExp() {
-    past addexp = AddExp();
-    if (addexp != NULL) {
-        return addexp;
-    } else {
-        return NULL;
-    }
+    return AddExp();
 }
 
 past InitVal() {
@@ -1574,15 +1438,14 @@ past InitVal() {
 
     if (tok == tok_LBRACKET) {
         past initval = InitVal();
-        if (initval != NULL) {
-            past initvals = newInitVal(initval, initvals);
+        if (initval) {
             advance();
 
             while (1) {
                 if (tok == tok_COMMA) {
-                    initval = InitVal();
-                    if (initval != NULL) {
-                        initvals = newInitVal(initval, initvals);
+                    past new_initval = InitVal();
+                    if (new_initval) {
+                        AstAppendBro(&initval, new_initval);
                         advance();
                     } else {
                         return NULL;
@@ -1592,24 +1455,19 @@ past InitVal() {
             }
 
             if (tok == tok_RBRACKET) {
-                return initvals;
+                return initval;
             } else {
                 return NULL;
             }
-        } else {
-            return NULL;
+        } else{
+            if (tok == tok_RBRACKET)
+                return initval;
+            else
+                return NULL;
         }
     } else {
         recall(recall_pos);
-
-        past exp = Exp();
-        if (exp != NULL) {
-            past initval = newInitVal(exp, NULL);
-
-            return initval;
-        } else {
-            return NULL;
-        }
+        return Exp();
     }
 }
 
@@ -1618,33 +1476,65 @@ void ShowAst(past node, int nest) {
         return;
 
     for (int i = 0; i < nest; i++)
-        printf("  ");
-    if (strcmp(node->nodeType, "intValue") == 0)
-        printf("%s %d\n", node->nodeType, node->ivalue);
-    else if (strcmp(node->nodeType, "expr") == 0)
-        printf("%s '%c'\n", node->nodeType, (char)node->ivalue);
-    // else if(strcmp)
-    else
-        ;
-    ShowAst(node->left, nest + 1);
-    ShowAst(node->right, nest + 1);
+        printf("	");
+
+    if (node->nodeType == "Num")
+        printf("%s %ld\n", node->nodeType, node->data.value);
+    else if (node->nodeType == "expr")
+        printf("%s '%c'\n", node->nodeType, (char)node->data.value);
+    else if (node->nodeType == "VarDecl")
+        printf("VarDecl: %s\n", node->data.type);
+    else if (node->nodeType == "Varible"){
+        if(node->data.dimen)
+            printf("%s:  %d\n", node->data.id, node->data.dimen);
+        else
+            printf("%s:  %ld\n", node->data.id, node->data.value);
+    }
+    else if (node->nodeType == "ConstDecl")
+        printf("ConstDecl: %s\n", node->data.type);
+    else if (node->nodeType == "FuncDef")
+        printf("FuncDef: %s %s\n", node->data.id, node->data.type);
+    else if (node->nodeType == "FuncParam")
+        printf("FuncParam: %s %s\n", node->data.id, node->data.type);
+    else if (node->nodeType == "Block")
+        printf("%s\n", node->data.type);
+    else if (node->nodeType == "Opcode")
+        printf("%s\n", node->data.type);
+    else if (node->nodeType == "IfStmt")
+        printf("%s\n", node->nodeType);
+    else if (node->nodeType == "ElseStmt")
+        printf("%s\n", node->nodeType);
+    else if (node->nodeType == "WhileStmt")
+        printf("%s\n", node->nodeType);
+    else if (node->nodeType == "ContinueStmt")
+        printf("%s\n", node->nodeType);
+    else if (node->nodeType == "FuncCall")
+        printf("%s: %s\n", node->nodeType, node->data.id);
+    else if (node->nodeType == "BreakStmt")
+        printf("%s\n", node->nodeType);
+    else if (node->nodeType == "ReturnStmt")
+        printf("%s\n", node->nodeType);
+    else ;
+
+    ShowAst(node->ls, nest + 1);
+    ShowAst(node->rs, nest + 1);
+    ShowAst(node->bro, nest);
 }
 
 void FreeAst(past node) {
     if (!node)
         return;
 
-    FreeAst(node->left);
-    FreeAst(node->right);
+    FreeAst(node->ls);
+    FreeAst(node->rs);
+    FreeAst(node->bro);
     free(node);
 }
 
 // 递归下降分析
 past Recursive_Parse(void) {
-    past ret;
-
     first_get = 1;
     getChar();
 
-    return ret = CompUnit();
+    return CompUnit();
 }

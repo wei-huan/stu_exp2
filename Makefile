@@ -39,7 +39,7 @@ $(TAR2): lib$(TAR0)
 ifeq ($(ALL), 1)
 	$(CC) $(SRC)/main_$(TAR2).c $(SRC)/rdparser.c -L $(LIB)/ -l$(TAR0) -I $(INC)/ -DALL -o $(TAR)/$(TAR2) -I $(INC)
 else
-	$(CC) $(SRC)/main_$(TAR1).c $(SRC)/rdcheck.c -L $(LIB)/ -l$(TAR0) -I $(INC)/ -o $(TAR)/$(TAR1)
+	$(CC) $(SRC)/main_$(TAR2).c $(SRC)/rdparser.c -L $(LIB)/ -l$(TAR0) -I $(INC)/ -o $(TAR)/$(TAR2)
 endif
 
 run_$(TAR1): $(TAR1)
