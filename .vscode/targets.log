@@ -8,7 +8,7 @@ make: *** No rule to make target 'all'.  Stop.
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Thu Feb  3 15:43:41 2022
+# Make data base, printed on Thu Feb  3 16:04:46 2022
 
 # Variables
 
@@ -280,13 +280,13 @@ GIO_LAUNCHED_DESKTOP_FILE = /usr/share/applications/code.desktop
 CONDA_PREFIX = /home/weihuan/anaconda3
 # environment
 VSCODE_PID = 3517
- 
 # environment
 _CE_CONDA = 
 # environment
 LANG = C
 # variable set hash-table stats:
-# Load=136/1024=13%, Rehash=0, Collisions=35/178=20%
+ 
+# Load=136/1024=13%, Rehash=0, Collisions=37/180=21%
 
 # Pattern-specific Variable Values
 
@@ -315,35 +315,43 @@ run_check: check
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  recipe to execute (from 'Makefile', line 49):
+#  recipe to execute (from 'Makefile', line 55):
 	./$(TAR)/$(TAR1) $(ana_FileDir)/$(ana_file)
 
 run_parser: parser
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  recipe to execute (from 'Makefile', line 56):
+#  recipe to execute (from 'Makefile', line 62):
 	./$(TAR)/$(TAR2) $(ana_FileDir)/$(ana_file)
 
 # Not a target:
 Makefile:
 #  Implicit rule search has been done.
-#  Last modified 2022-01-26 16:55:18.994050746
+#  Last modified 2022-02-03 16:04:14.678551623
 #  File has been updated.
 #  Successfully updated.
 
-libman_lex: man_lex
+libman_lex:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
 #  recipe to execute (from 'Makefile', line 27):
+	$(CC) -c $(SRC)/$(TAR0).c -o $(TAR)/$(TAR0).o -I $(INC)
 	$(AR) cqs $(LIB)/lib$(TAR0).a $(TAR)/$(TAR0).o
+
+run_man_lex: man_lex
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 48):
+	./$(TAR)/$(TAR0) $(ana_FileDir)/$(ana_file)
 
 parser: libman_lex
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  recipe to execute (from 'Makefile', line 42):
+#  recipe to execute (from 'Makefile', line 41):
 	$(CC) $(SRC)/main_$(TAR2).c $(SRC)/rdparser.c -L $(LIB)/ -l$(TAR0) -I $(INC)/ -o $(TAR)/$(TAR2)
 
 # Not a target:
@@ -356,14 +364,14 @@ clean:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  recipe to execute (from 'Makefile', line 60):
+#  recipe to execute (from 'Makefile', line 66):
 	rm -rf $(TAR)/*.o
 
 check: libman_lex
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  recipe to execute (from 'Makefile', line 35):
+#  recipe to execute (from 'Makefile', line 34):
 	$(CC) $(SRC)/main_$(TAR1).c $(SRC)/rdcheck.c -L $(LIB)/ -l$(TAR0) -I $(INC)/ -o $(TAR)/$(TAR1)
 
 man_lex:
@@ -371,22 +379,22 @@ man_lex:
 #  Modification time never checked.
 #  File has not been updated.
 #  recipe to execute (from 'Makefile', line 24):
-	$(CC) -c $(SRC)/$(TAR0).c -o $(TAR)/$(TAR0).o -I $(INC)
+	$(CC) $(SRC)/$(TAR0).c -o $(TAR)/$(TAR0) -I $(INC) -Dlex
 
 # files hash-table stats:
-# Load=11/1024=1%, Rehash=0, Collisions=0/26=0%
+# Load=12/1024=1%, Rehash=0, Collisions=0/27=0%
 # VPATH Search Paths
 
 # No 'vpath' search paths.
 
 # No general ('VPATH' variable) search path.
 
-# strcache buffers: 1 (0) / strings = 28 / storage = 213 B / avg = 7 B
-# current buf: size = 8162 B / used = 213 B / count = 28 / avg = 7 B
+# strcache buffers: 1 (0) / strings = 29 / storage = 225 B / avg = 7 B
+# current buf: size = 8162 B / used = 225 B / count = 29 / avg = 7 B
 
-# strcache performance: lookups = 44 / hit rate = 36%
+# strcache performance: lookups = 46 / hit rate = 36%
 # hash-table stats:
-# Load=28/8192=0%, Rehash=0, Collisions=1/44=2%
-# Finished Make data base on Thu Feb  3 15:43:41 2022
+# Load=29/8192=0%, Rehash=0, Collisions=1/46=2%
+# Finished Make data base on Thu Feb  3 16:04:46 2022
 
  

@@ -294,33 +294,38 @@ int lex_ana(void){
 		break;
 	}
 
-	// if(nextToken >= 256 && nextToken <= 289)
-	// 	printf("tok:%d pos:%ld lex:%s\n", nextToken, ftell(ana_file), lex_str);
+#ifdef lex
+	if(nextToken >= 256 && nextToken <= 289)
+		printf("tok:%d pos:%ld lex:%s\n", nextToken, ftell(ana_file), lex_str);
+#endif
+
 	return nextToken;
 }
 
-// int main(int argc, char* argv[]){
-// 	argc--; argv++;
-// 	if(argc < 1){
-// 		printf("请输入要分析的文件\n");
-// 		exit(1);
-// 	}
+#ifdef lex
+int main(int argc, char* argv[]){
+	argc--; argv++;
+	if(argc < 1){
+		printf("请输入要分析的文件\n");
+		exit(1);
+	}
 
-// 	ana_file = fopen(*argv, "r");
+	ana_file = fopen(*argv, "r");
 
-// 	if(ana_file == NULL){
-// 		printf("要分析的文件不存在\n");
-// 		exit(1);
-// 	}
+	if(ana_file == NULL){
+		printf("要分析的文件不存在\n");
+		exit(1);
+	}
 
-// 	getChar();
-// 	while (nextToken != tok_EOF)
-// 		lex_ana();
+	getChar();
+	while (nextToken != tok_EOF)
+		lex_ana();
 
-// 	// printf("EOF\n");
+	// printf("EOF\n");
 
-// 	if(fclose(ana_file) == EOF){
-// 		printf("关闭文件错误\n");
-// 		exit(1);
-// 	}
-// }
+	if(fclose(ana_file) == EOF){
+		printf("关闭文件错误\n");
+		exit(1);
+	}
+}
+#endif

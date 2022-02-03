@@ -1,5 +1,5 @@
-make --dry-run --always-make --keep-going --print-directory
+make --dry-run --keep-going --print-directory
 make: Entering directory '/home/weihuan/WorkSpace/Compile/exp/stu_exp2'
-gcc -c src/man_lex.c -o target/man_lex.o -I inc
+gcc src/man_lex.c -o target/man_lex -I inc -Dlex
 make: Leaving directory '/home/weihuan/WorkSpace/Compile/exp/stu_exp2'
  
