@@ -27,7 +27,7 @@ git clone git@github.com:wei-huan/sysY-compiler.git
 ## 使用
 ### 词法分析器的使用
 ```makefile
-cd sysY_compiler
+cd sysY-compiler
 make run_man_lex ana_file=test_cases/99_register_realloc.c
 ```
 
@@ -40,7 +40,7 @@ make run_man_lex ana_file=test_cases/99_register_realloc.c
 ##### 针对某个测试用例
 
 ```makefile
-cd sysY_compiler
+cd sysY-compiler
 make run_check ana_file=test_cases/97_many_global_var.c
 ```
 
@@ -48,7 +48,7 @@ make run_check ana_file=test_cases/97_many_global_var.c
 
 ##### 针对全部测试用例(test_cases的全部文件)
 ```makefile
-cd sysY_compiler
+cd sysY-compiler
 make run_check ALL=1
 ```
 
@@ -59,7 +59,7 @@ make run_check ALL=1
 ##### 针对某个测试用例
 
 ```makefile
-cd sysY_compiler
+cd sysY-compiler
 make run_parser ana_file=test_cases/97_many_global_var.c
 ```
 
@@ -67,7 +67,7 @@ make run_parser ana_file=test_cases/97_many_global_var.c
 
 ##### 针对全部测试用例(test_cases的全部文件)
 ```makefile
-cd sysY_compiler
+cd sysY-compiler
 make run_parse ALL=1
 ```
 
