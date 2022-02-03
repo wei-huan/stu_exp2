@@ -75,12 +75,14 @@ past newVar(char *name, int dimension, past dimen_list, past data_list) {
     return var;
 }
 
-past newDimension_List(past dimension, past dimension_list) {
-    past newdimension_list = newAstNode();
-    newdimension_list->nodeType = "Dimension_List";
-    // newdimension_list->ls = dimension;
-    // newdimension_list->bro_rs = dimension_list;
-    return newdimension_list;
+past newConstVar(char *name, int dimension, past dimen_list, past data_list) {
+    past var = newAstNode();
+    strcpy(var->data.id, name);
+    var->nodeType = "ConstVar";
+    var->data.dimen = dimension;
+    var->ls = dimen_list;
+    var->rs = data_list;
+    return var;
 }
 
 past newOpcode(char *op, past ls, past rs) {
@@ -103,13 +105,20 @@ past newFuncDef(past params, past block, char *id, char *rettype) {
 }
 
 past newFuncFParam(char *type, char *id, int dimen,
-                   past dimension_list) {
+                   past dimen_list) {
     past funcfparam = newAstNode();
-    funcfparam->nodeType = "FuncParam";
+    funcfparam->nodeType = "FuncFParam";
     funcfparam->data.dimen = dimen;
     strcpy(funcfparam->data.type, type);
     strcpy(funcfparam->data.id, id);
-    // funcfparam->ls = dimension_list;
+    funcfparam->ls = dimen_list;
+    return funcfparam;
+}
+
+past newFuncRParam(past exp) {
+    past funcfparam = newAstNode();
+    funcfparam->nodeType = "FuncRParam";
+    funcfparam->ls = exp;
     return funcfparam;
 }
 
@@ -155,14 +164,6 @@ past newConstDecl(past type, past constdef_list) {
     strcpy(constdecl->data.type, type->data.type);
     constdecl->ls = constdef_list;
     return constdecl;
-}
-
-past newConstInitVal_List(past constinitval, past constinitval_list) {
-    past newconstinitval_list = newAstNode();
-    newconstinitval_list->nodeType = "ConstInitVal_List";
-    // newconstinitval_list->ls = constinitval;
-    // newconstinitval_list->bro_rs = constinitval_list;
-    return newconstinitval_list;
 }
 
 past newVarDecl(char* type, past var) {
@@ -327,6 +328,7 @@ past ConstDecl() {
 }
 
 past ConstDef() {
+    past dimen_list = NULL;
     advance();
 
     if (tok == tok_ID) {
@@ -338,7 +340,7 @@ past ConstDef() {
         if (tok == tok_ASSIGN) {
             past constinitval = ConstInitVal();
             if (constinitval) {
-                return newVar(id_str, 0, NULL, constinitval);
+                return newConstVar(id_str, 0, NULL, constinitval);
             } else {
                 return NULL;
             }
@@ -348,18 +350,14 @@ past ConstDef() {
                 advance();
 
                 if (tok == tok_RSQUARE) {
-                    past dimension_list = newDimension_List(constexp, NULL);
-                    past const_variable = newVar(id_str, 1, NULL, dimension_list);
+                    AstAppendBro(&dimen_list, constexp);
                     advance();
 
                     if (tok == tok_ASSIGN) {
                         past constinitval = ConstInitVal();
 
                         if (constinitval) {
-                            past constdef_assign =
-                                newOpcode("=", const_variable, constdef_assign);
-
-                            return constdef_assign;
+                            return newVar(id_str, 1, dimen_list, constinitval);
                         } else {
                             return NULL;
                         }
@@ -444,12 +442,8 @@ past VarDef() {
             past initval = InitVal();
 
             if (initval) {
-                if (initval->nodeType == "Num"){
-                    past var = newVar(id_str, initval->data.value, NULL, NULL);
-                    return var;
-                }
-                else
-                    return NULL;
+                past var = newVar(id_str, dimension, NULL, initval);
+                return var;
             } else
                 return NULL;
 
@@ -566,11 +560,10 @@ past ConstInitVal() {
         while (1) {
             past constinitval = ConstInitVal();
             if (constinitval) {
+                AstAppendBro(&constinitval_list, constinitval);
                 advance();
 
                 if (tok == tok_COMMA) {
-                    constinitval_list =
-                        newConstInitVal_List(constinitval, constinitval_list);
                     continue;
                 } else if (tok == tok_RBRACKET) {
                     return constinitval_list;
@@ -583,13 +576,7 @@ past ConstInitVal() {
         }
     } else {
         recall(recall_pos);
-
-        past constexp = ConstExp();
-        if (constexp) {
-            return constexp;
-        } else {
-            return NULL;
-        }
+        return ConstExp();
     }
 }
 
@@ -625,7 +612,7 @@ past FuncFParams() {
 
 past FuncFParam() {
     int dimension = 0;
-    past dimension_list = NULL;
+    past dimen_list = NULL;
     int recall_pos;
 
     if (BType()) {
@@ -646,7 +633,6 @@ past FuncFParam() {
 
                 if (tok == tok_RSQUARE) {
                     dimension++;
-                    dimension_list = newDimension_List(NULL, NULL);
 
                     while (1) {
                         recall_pos = save_recall_pos();
@@ -659,10 +645,9 @@ past FuncFParam() {
                                 advance();
 
                                 if (tok == tok_RSQUARE) {
-                                    continue;
                                     dimension++;
-                                    dimension_list =
-                                        newDimension_List(exp, dimension_list);
+                                    AstAppendBro(&dimen_list, exp);
+                                    continue;
                                 } else {
                                     return NULL;
                                 }
@@ -671,9 +656,8 @@ past FuncFParam() {
                             }
                         } else {
                             recall(recall_pos);
-                            past funcfparam = newFuncFParam(
-                                type_str, id_str, dimension, dimension_list);
 
+                            past funcfparam = newFuncFParam(type_str, id_str, dimension, dimen_list);
                             return funcfparam;
                         }
                     }
@@ -682,7 +666,7 @@ past FuncFParam() {
                 }
             } else {
                 recall(recall_pos);
-                return newFuncFParam(type_str, id_str, 0, NULL);
+                return newFuncFParam(type_str, id_str, dimension, NULL);
             }
         } else {
             return NULL;
@@ -842,7 +826,6 @@ past Stmt() {
 
             if (tok == tok_SEMICOLON) {
                 past returnstmt = newReturnStmt(exp);
-
                 return returnstmt;
             } else {
                 return NULL;
@@ -892,6 +875,7 @@ past Stmt() {
             }
         } else {
             recall(recall_pos);
+            recall_pos = save_recall_pos();
 
             past exp = Exp();
             if (exp) {
@@ -905,12 +889,7 @@ past Stmt() {
             } else {
                 recall(recall_pos);
 
-                past block = Block();
-                if (block) {
-                    return block;
-                } else {
-                    return NULL;
-                }
+                return Block();
             }
         }
     }
@@ -925,7 +904,8 @@ past Cond() {
 }
 
 past LVal() {
-    past dimension_list = NULL;
+    int dimen = 0;
+    past dimen_list = NULL;
     int recall_pos = save_recall_pos();
 
     advance();
@@ -944,8 +924,8 @@ past LVal() {
                     advance();
 
                     if (tok == tok_RSQUARE) {
-                        dimension_list = newDimension_List(exp, dimension_list);
-
+                        dimen++;
+                        AstAppendBro(&dimen_list, exp);
                         continue;
                     } else {
                         return NULL;
@@ -955,7 +935,7 @@ past LVal() {
                 }
             } else {
                 recall(recall_pos);
-                return newVar(id_str, 0, NULL, dimension_list);
+                return newVar(id_str, dimen, dimen_list, NULL);
             }
         }
     } else
@@ -1086,7 +1066,8 @@ past FuncRParams() {
 
         while (1) {
             if (tok == tok_COMMA) {
-                AstAppendBro(&funcrparams_list, exp);
+                past funcrparam = newFuncRParam(exp);
+                AstAppendBro(&funcrparams_list, funcrparam);
 
                 exp = Exp();
                 if (exp) {
@@ -1098,7 +1079,8 @@ past FuncRParams() {
             } else {
                 recall(recall_pos);
 
-                AstAppendBro(&funcrparams_list, exp);
+                past funcrparam = newFuncRParam(exp);
+                AstAppendBro(&funcrparams_list, funcrparam);
                 return funcrparams_list;
             }
         }
@@ -1490,14 +1472,22 @@ void ShowAst(past node, int nest) {
         else
             printf("%s:  %ld\n", node->data.id, node->data.value);
     }
+    else if (node->nodeType == "ConstVar"){
+        if(node->data.dimen)
+            printf("%s:  %d\n", node->data.id, node->data.dimen);
+        else
+            printf("%s:  %ld\n", node->data.id, node->data.value);
+    }
     else if (node->nodeType == "ConstDecl")
         printf("ConstDecl: %s\n", node->data.type);
     else if (node->nodeType == "FuncDef")
         printf("FuncDef: %s %s\n", node->data.id, node->data.type);
-    else if (node->nodeType == "FuncParam")
-        printf("FuncParam: %s %s\n", node->data.id, node->data.type);
+    else if (node->nodeType == "FuncFParam")
+        printf("FuncFParam: %s %s %d\n", node->data.id, node->data.type, node->data.dimen);
+    else if (node->nodeType == "FuncRParam")
+        printf("FuncRParam: %s %s %d\n", node->data.id, node->data.type, node->data.dimen);
     else if (node->nodeType == "Block")
-        printf("%s\n", node->data.type);
+        printf("%s\n", node->nodeType);
     else if (node->nodeType == "Opcode")
         printf("%s\n", node->data.type);
     else if (node->nodeType == "IfStmt")
@@ -1514,7 +1504,7 @@ void ShowAst(past node, int nest) {
         printf("%s\n", node->nodeType);
     else if (node->nodeType == "ReturnStmt")
         printf("%s\n", node->nodeType);
-    else ;
+    else;
 
     ShowAst(node->ls, nest + 1);
     ShowAst(node->rs, nest + 1);

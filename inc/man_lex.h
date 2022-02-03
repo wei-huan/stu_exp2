@@ -1,10 +1,10 @@
 #ifndef MAN_LEX_H
 #define MAN_LEX_H
 
-#include <stdio.h>
-#include <string.h>
 #include <ctype.h>
+#include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <unistd.h>
 
 #define DEBUG 1
@@ -14,45 +14,45 @@
 #define UNKNOWN 4
 #define MAX_LEN 100
 
-enum Token_T{
-	tok_ID=256,		 // 标识符
-	tok_INTEGER,	 	 // 整数
-	tok_INT,		 // int
-	tok_VOID,		 // void
-	tok_CONST,		 // const
-	tok_IF,			 // if
-	tok_ELSE,		 // else
-	tok_WHILE,		 // while
-	tok_BREAK,		 // break
-	tok_CONTINUE,	 	 // continue
-	tok_RETURN,		 // return
-	tok_ADD,		 // +
-	tok_SUB,		 // -
-	tok_MUL,		 // *
-	tok_DIV,		 // /
-	tok_MODULO,		 // %
-	tok_LESS,		 // <
-	tok_LESSEQ,		 // <=
-	tok_GREAT,		 // >
-	tok_GREATEQ,	 // >=
-	tok_NOTEQ,		 // !=
-	tok_EQ,		 	 // ==
-	tok_NOT,		 // !
-	tok_AND, 		 // &&
-	tok_OR,			 // ||
-	tok_ASSIGN,		 // =
-	tok_LPAR,		 // (
-	tok_RPAR,		 // )
-	tok_LBRACKET,	 // {
-	tok_RBRACKET,	 // }
-	tok_LSQUARE,	 // [
-	tok_RSQUARE,	 // ]
-	tok_COMMA,		 // ,
-	tok_SEMICOLON,	 // ;
-	tok_EOF
+enum Token_T {
+    tok_ID = 256,  // 标识符
+    tok_INTEGER,   // 整数
+    tok_INT,       // int
+    tok_VOID,      // void
+    tok_CONST,     // const
+    tok_IF,        // if
+    tok_ELSE,      // else
+    tok_WHILE,     // while
+    tok_BREAK,     // break
+    tok_CONTINUE,  // continue
+    tok_RETURN,    // return
+    tok_ADD,       // +
+    tok_SUB,       // -
+    tok_MUL,       // *
+    tok_DIV,       // /
+    tok_MODULO,    // %
+    tok_LESS,      // <
+    tok_LESSEQ,    // <=
+    tok_GREAT,     // >
+    tok_GREATEQ,   // >=
+    tok_NOTEQ,     // !=
+    tok_EQ,        // ==
+    tok_NOT,       // !
+    tok_AND,       // &&
+    tok_OR,        // ||
+    tok_ASSIGN,    // =
+    tok_LPAR,      // (
+    tok_RPAR,      // )
+    tok_LBRACKET,  // {
+    tok_RBRACKET,  // }
+    tok_LSQUARE,   // [
+    tok_RSQUARE,   // ]
+    tok_COMMA,     // ,
+    tok_SEMICOLON, // ;
+    tok_EOF
 };
 
-extern FILE* ana_file;
+extern FILE *ana_file;
 extern int nextToken;
 extern int lex_idx;
 extern char lex_str[MAX_LEN + 1];
