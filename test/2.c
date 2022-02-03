@@ -12,7 +12,7 @@ int a(int b, int c){
         b = 10;
     }
 
-    function1();
+    function1(a, b);
     while(b) {
         c = c + 1;
         continue;
