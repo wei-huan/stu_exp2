@@ -1,6 +1,8 @@
 {
     "files.associations": {
-        "rdparser.h": "c"
+        "rdparser.h": "c",
+        "cmath": "c",
+        "man_lex.h": "c"
     },
     "C_Cpp.errorSquiggles": "Disabled"
 }
